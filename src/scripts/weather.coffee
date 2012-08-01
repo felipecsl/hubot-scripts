@@ -1,7 +1,20 @@
-# Returns weather information from Google
+# Description:
+#   Returns weather information from Google
 #
-# weather <city> - Get the weather for a location
-# forecast <city> - Get the forecast for a location
+# Dependencies:
+#   "jsdom": "0.2.14"
+#
+# Configuration:
+#   HUBOT_WEATHER_CELSIUS - Display in celsius
+#
+# Commands:
+#   hubot weather <city> - Get the weather for a location
+#   hubot forecast <city> - Get the forecast for a location
+#
+# Author:
+#   markstory
+#   mbmccormick
+
 jsdom = require 'jsdom'
 env = process.env
 
@@ -53,7 +66,7 @@ module.exports = (robot) ->
       else
         temp = body.getElementsByTagName("current_conditions")[0].getElementsByTagName("temp_f")[0].getAttribute("data") + "ºF"
       
-      msg.send "Currently in #{city} it is #{conditions} and #{temp} with a humidity of #{humidity}.\n"
+      msg.send "Currently in #{city} it is #{conditions} and #{temp} with a humidity of #{humidity}."
 
   getDom = (xml) ->
     body = jsdom.jsdom(xml)

@@ -1,6 +1,17 @@
-# Janky API integration. https://github.com/github/janky
+# Description:
+#   Janky API integration. https://github.com/github/janky
 #
-# ci - show usage
+# Dependencies:
+#   None
+#
+# Configuration:
+#   HUBOT_JANKY_URL
+#
+# Commands:
+#   hubot ci - show usage
+#
+# Author:
+#   sr
 
 URL  = require "url"
 url  = URL.parse(process.env.HUBOT_JANKY_URL)
@@ -62,12 +73,13 @@ module.exports = (robot) ->
       else
         msg.reply "can't help you right now."
 
-  robot.respond /ci build ([-_\.0-9a-zA-Z]+)(\/([-_\.a-zA-z0-9]+))?/i, (msg) ->
+  robot.respond /ci build ([-_\.0-9a-zA-Z]+)(\/([-_\.a-zA-z0-9\/]+))?/i, (msg) ->
     app     = msg.match[1]
     branch  = msg.match[3] || "master"
     room_id = msg.message.user.room
+    user    = msg.message.user.name
 
-    post "#{app}/#{branch}?room_id=#{room_id}", {}, (err, statusCode, body) ->
+    post "#{app}/#{branch}?room_id=#{room_id}&user=#{user}", {}, (err, statusCode, body) ->
       if statusCode == 201 or statusCode == 404
         response = body
       else
@@ -85,7 +97,7 @@ module.exports = (robot) ->
       if statusCode == 201
         msg.reply body
       else
-        msg.reply body
+        msg.reply "Error F7U12: Can't Setup."
 
   robot.respond /ci toggle ([-_\.0-9a-zA-Z]+)/i, (msg) ->
     app    = msg.match[1]
@@ -120,7 +132,7 @@ module.exports = (robot) ->
       else
         msg.send("who knows")
 
-  robot.respond /ci status (-v )?([-_\.0-9a-zA-Z]+)(\/([-_\.a-zA-z0-9]+))?/i, (msg) ->
+  robot.respond /ci status (-v )?([-_\.0-9a-zA-Z]+)(\/([-_\.a-zA-z0-9\/]+))?/i, (msg) ->
     app    = msg.match[2]
     count  = 5
     branch = msg.match[4] || 'master'
@@ -138,3 +150,7 @@ module.exports = (robot) ->
         response += "\n" if count > 1
 
       msg.send response
+
+  robot.router.post "/janky", (req, res) ->
+    robot.messageRoom req.body.room, req.body.message
+    res.end "ok"

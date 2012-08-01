@@ -1,4 +1,17 @@
-# Extends robot adding conversation features
+# Description:
+#   Extends robot adding conversation features
+#
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   None
+#
+# Author:
+#   Iristyle
 
 module.exports = (robot) ->
   robot.eatListeners = {}
@@ -17,7 +30,7 @@ module.exports = (robot) ->
   # Change default receive command, addind processing of eatListeners
   robot.origReceive = robot.receive
   robot.receive = (message) ->
-    if robot.eatListeners[message.user.id]?
+    if message.user? and robot.eatListeners[message.user.id]?
       lst = robot.eatListeners[message.user.id]
       delete robot.eatListeners[message.user.id]
 
@@ -54,4 +67,3 @@ class Listener
       return true
     else
       return false
-

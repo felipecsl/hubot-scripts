@@ -1,6 +1,17 @@
-# Returns a random Yo Mama joke
+# Description:
+#   None
 #
-# yo mama joke me
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot yo mama joke me - Returns a random Yo Mama joke
+#
+# Author:
+#   victorbutler
 
 module.exports = (robot) ->
   robot.respond /(yo\s?mama( joke)?)( me)?/i, (msg) ->

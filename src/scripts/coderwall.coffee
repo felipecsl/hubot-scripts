@@ -1,7 +1,18 @@
-# Messing around with the Coderwall API.
+# Description:
+#   Messing around with the Coderwall API
 #
-# coderwall <coderwall username> - Returns coder achievements from coderwall.com
-#                      
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot coderwall <coderwall username> - Returns coder achievements from coderwall.com
+#
+# Author:
+#   mexitek
+
 module.exports = (robot) ->
   robot.respond /(coderwall)( me)? (.*)/i, (msg) ->
     user = msg.match[3]
@@ -15,10 +26,12 @@ module.exports = (robot) ->
         else 
           profile = JSON.parse(body)
           # Give an intro to the coderwall profile
-          resp_str = "";
-          resp_str += user + "'s coderwall -> http://coderwall.com/"+user + "\n"
+          resp_str = profile.name + " from " + profile.location + " \n"
+          resp_str += "coderwall -> http://coderwall.com/"+user + "\n" 
+          resp_str += "github -> https://github.com/" + profile.accounts.github + "\n"
+          resp_str += profile.username + " has " + profile.endorsements + " endorsements and " + profile.badges.length + " badges\n"
           # Iterate all badges and continue building string
           profile.badges.forEach (badge) ->
-            resp_str += badge.name + " - " + badge.description + "\n"
+            resp_str += "[" + badge.name + "] - " + badge.description + "\n"
           # Return response
           msg.send resp_str

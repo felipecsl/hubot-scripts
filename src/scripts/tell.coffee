@@ -1,9 +1,21 @@
-# Tell Hubot to send a user a message when present in the room
+# Description:
+#   Tell Hubot to send a user a message when present in the room
 #
-# tell <username> <some message>
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot tell <username> <some message> - tell <username> <some message> next time they are present
+#
+# Author:
+#   christianchristensen
+
 module.exports = (robot) ->
    localstorage = {}
-   robot.respond /tell (\w*) (.*)/i, (msg) ->
+   robot.respond /tell ([\w.-]*) (.*)/i, (msg) ->
      datetime = new Date()
      tellmessage = msg.match[1] + ": " + msg.message.user.name + " @ " + datetime.toTimeString() + " said: " + msg.match[2] + "\r\n"
      if localstorage[msg.match[1]] == undefined

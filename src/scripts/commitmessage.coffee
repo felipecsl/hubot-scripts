@@ -1,6 +1,17 @@
-# Get a random commit message
+# Description:
+#   Get a random commit message
 #
-# commit message - Displays a random commit message
+# Dependencies:
+#   None
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot commit message - Displays a random commit message
+#
+# Author:
+#   mrtazz
 
 module.exports = (robot) ->
   robot.respond /commit message/i, (msg) ->
